@@ -7,6 +7,6 @@ int main() {
   D = (B*B)- 4*A*C;
   R1 = ((-B) + sqrt(D))/(2*(A));
   R2 = ((-B) - sqrt(D))/(2*(A));
-  printf("%f %f\n"R1,R2);
+  printf("%f %f\n",R1,R2);
   return 0;
 }
