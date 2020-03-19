@@ -11,7 +11,7 @@ typedef struct LES {
     char Tipo;
 }LES;
 
-int * Vector_Final;  
+int * Vector_Final,C=0;
 
 void Array_LES(LES *A,int M){
     int i;
@@ -19,41 +19,91 @@ void Array_LES(LES *A,int M){
         scanf("%c %d ",&(A+i)->Tipo,&(A+i)->Num);
     };
 }
-void *Final_Vector(int A,int M){
+void print_v (int C){
 
-    int h = 1;
-    for(int i=0;i < m;i++){
-        if(i==0){
-            *(Vector_Final) = A;
-        }
-        for(int j=0;j < M;j++)
+    for (int i=0;i <= C;i++){
+        printf("%d\n",*(Vector_Final + i));
     }
+}
+void Mover_direita(int C,int n){
+    int i,g=0;
 
+    for(i = C;i>n;i--){
 
+        *(Vector_Final + i) = *(Vector_Final + i -1);
+    }
+}
+void Mover_Esquerda(int C,int n){
+    int i,g=0;
+
+    for(i = n;i<C;i++){
+
+        *(Vector_Final + i) = *(Vector_Final + i + 1);
+
+    }
+}
+int Inserir (int A,int C){
+
+    int h = 0,S=0;
+    for(int i=0;i <= C;i++){
+        if(C==0){
+            *(Vector_Final) = A;
+            S=1;
+        }
+        if(A==*(Vector_Final+i)){
+            break;
+        }
+        else if(A < *(Vector_Final+i)){
+           Mover_direita(C,h);
+           *(Vector_Final+i) = A;
+           S=1;
+           break;
+        }
+        else if(i==C){
+            *(Vector_Final+i) = A;
+            S=1;
+            break;
+        }
+        h++;
+    }
+    return S;
 }
 
+int Remover (int A,int C){
+
+    int h = 0,S=0;
+    for(int i=0;i < C;i++){
+        if(A == *(Vector_Final+i)){
+           Mover_Esquerda(C,h);
+           S = 1;
+           break;
+        }
+        else{
+        }
+        h++;
+    }
+    return S;
+}
 
 int main (){
-    int N,M=0,i,j;
+    int N,M=0,i,j,C=0,Sinalizador =0;
     LES *P;
 
     scanf("%d ",&N);
     Vector_Final = malloc(N* sizeof (int));
     P = malloc(N * sizeof (LES));
     Array_LES(P,N);
-    for(i=0;i < N;i++){
-        if((P+i)-> Tipo == 'I'){
-            for(j=0;j < N;j++){
-                if(((P+j)-> Tipo == 'E')&&((P+j)-> Num == (P+i)-> Num)){
-                    M = 1;
-                }
-            }
-            if(M==1){
-                Final_Vector((P+i)-> Num,N)
-            }
-            M = 0;
+    for (int i=0;i <= N;i++){
+        if((P+i)->Tipo == 'I'){
+            Sinalizador = Inserir((P+i)->Num,C);
+            C = C + Sinalizador;
+        }
+        else {
+            Sinalizador = Remover((P+i)->Num,C);
+            C = C - Sinalizador;
         }
     }
+    print_v(C-1);
+
     return 0;
 }
-
